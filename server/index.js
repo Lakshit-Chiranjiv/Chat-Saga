@@ -1,8 +1,12 @@
 import express from "express";
-// import socketio from "socket.io";
-
+import http from 'http'
+import { Server } from "socket.io";
 
 const app = express()
+
+const server = http.createServer(app)
+
+const io = new Server(server)
 
 app.get('/',(req,res) => {
     res.json({
@@ -10,4 +14,8 @@ app.get('/',(req,res) => {
     })
 })
 
-app.listen(5000,()=>console.log('Server running on port 5000'))
+io.on('connection', (socket) => {
+    console.log('a user connected');
+});
+
+server.listen(5000,()=>console.log('Server running on port 5000'))
